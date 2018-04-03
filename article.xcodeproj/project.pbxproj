@@ -72,9 +72,9 @@
 		39BEE5A6204E49C2007B37D8 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				7E7AF668207319DA00B11C54 /* Networking */,
 				7E0256AA204D48180061069D /* Utilities */,
 				39BEE5A7204E49CE007B37D8 /* Lib */,
-				39BEE5A8204E4CDA007B37D8 /* DataAccess.swift */,
 				39BEE5AA204E4EEA007B37D8 /* Constant.swift */,
 			);
 			path = Helpers;
@@ -187,6 +187,14 @@
 				7E2E121B204CF0A9009926BF /* ArticleListViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		7E7AF668207319DA00B11C54 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				39BEE5A8204E4CDA007B37D8 /* DataAccess.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		80708157E2021B443A98ADDE /* Pods */ = {

@@ -20,6 +20,7 @@ class AddArticleViewController: UIViewController {
     @IBOutlet weak var titleTextField   : UITextField!
     @IBOutlet weak var descTextView     : UITextView!
     @IBOutlet weak var saveBarButtonItem: UIBarButtonItem!
+    
     private var articleListViewModel    : ArticleListViewModel?
     
     private let imagePicker             = UIImagePickerController()
@@ -56,40 +57,52 @@ class AddArticleViewController: UIViewController {
             }
         }
         
-        _ = titleTextField.rx.text.map { $0 ?? "" }.bind(to: (articleListViewModel?.title)!)
-        _ = descTextView.rx.text.map { $0 ?? "" }.bind(to: (articleListViewModel?.description)!)
-        _ = articleListViewModel?.isValid.bind(to: saveBarButtonItem.rx.isEnabled)
+        titleTextField.rx.text
+            .map { $0 ?? "" }
+            .bind(to: (articleListViewModel?.title)!)
+            .disposed(by: disposeBag)
         
-        imageTapGesture.rx.event.subscribe({ [weak self] _ in
-            self?.imagePicker.allowsEditing  = false
-            self?.imagePicker.sourceType     = .photoLibrary
-            self?.present((self?.imagePicker)!, animated: true, completion: nil)
-        }).disposed(by: self.disposeBag)
+        descTextView.rx.text.map { $0 ?? "" }
+            .bind(to: (articleListViewModel?.description)!)
+            .disposed(by: disposeBag)
         
-        saveBarButtonItem.rx.tap.asDriver().drive(onNext: { [weak self] in
-            let x = (self?.view.frame.width)! / 2
-            let y = (self?.view.frame.height)! / 2
-            self?.loadingIndicatorView.center = CGPoint(x: x, y: y + 25)
-            self?.loadingIndicatorView.hidesWhenStopped = true
-            self?.view.addSubview((self?.loadingIndicatorView)!)
-            self?.loadingIndicatorView.startAnimating()
-            
-            let image = UIImageJPEGRepresentation((self?.uploadImageView.image!)!, 1)
-            
-            if (self?.isSave!)! {
-                self?.articleListViewModel?.saveArticle(image: image!) {
-                    NotificationCenter.default.post(name: NSNotification.Name("reloadData"), object: nil, userInfo: nil)
-                    self?.navigationController?.popViewController(animated: true)
-                    self?.loadingIndicatorView.stopAnimating()
+        articleListViewModel?.isValid
+            .bind(to: saveBarButtonItem.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        imageTapGesture.rx.event
+            .subscribe({ [weak self] _ in
+                self?.imagePicker.allowsEditing  = false
+                self?.imagePicker.sourceType     = .photoLibrary
+                self?.present((self?.imagePicker)!, animated: true, completion: nil)
+            }).disposed(by: self.disposeBag)
+        
+        saveBarButtonItem.rx.tap.asDriver()
+            .drive(onNext: { [weak self] in
+                let x = (self?.view.frame.width)! / 2
+                let y = (self?.view.frame.height)! / 2
+                self?.loadingIndicatorView.center = CGPoint(x: x, y: y + 25)
+                self?.loadingIndicatorView.hidesWhenStopped = true
+                self?.view.addSubview((self?.loadingIndicatorView)!)
+                self?.loadingIndicatorView.startAnimating()
+                
+                let image = UIImageJPEGRepresentation((self?.uploadImageView.image!)!, 1)
+                
+                if (self?.isSave!)! {
+                    self?.articleListViewModel?.saveArticle(image: image!) {
+                        NotificationCenter.default.post(name: NSNotification.Name("reloadData"), object: nil, userInfo: nil)
+                        self?.navigationController?.popViewController(animated: true)
+                        self?.loadingIndicatorView.stopAnimating()
+                    }
+                } else {
+                    self?.articleListViewModel?.updateArticle(image: image!, id: (self?.newsID!)!) {
+                        NotificationCenter.default.post(name: NSNotification.Name("reloadData"), object: nil, userInfo: nil)
+                        self?.navigationController?.popViewController(animated: true)
+                        self?.loadingIndicatorView.stopAnimating()
+                    }
                 }
-            } else {
-                self?.articleListViewModel?.updateArticle(image: image!, id: (self?.newsID!)!) {
-                    NotificationCenter.default.post(name: NSNotification.Name("reloadData"), object: nil, userInfo: nil)
-                    self?.navigationController?.popViewController(animated: true)
-                    self?.loadingIndicatorView.stopAnimating()
-                }
-            }
-        }).disposed(by: self.disposeBag)
+            })
+            .disposed(by: self.disposeBag)
         
     }
     

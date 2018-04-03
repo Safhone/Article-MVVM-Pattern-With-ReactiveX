@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+// Codable is data encoding and decoding
 struct Response<T: Codable>: Codable {
     
     var code    : String?
