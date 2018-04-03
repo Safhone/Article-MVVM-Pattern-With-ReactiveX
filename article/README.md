@@ -33,9 +33,9 @@ In **CustomViews**, there also should be many sub-folders which names the same a
 
 ## Utilities
 **Utilities** contains **2** sub-folders:
-### - Libraries
+### Libraries
 **Libraries** contains *outside library* that is used in the project.
-### - Helpers
+### Helpers
 **Helpers** contain files that help developers to easily build the app such as custom TextField, Extension, and other more
 ### **Note:**
 In **Libraries**, there should be only libraries that couldn't be use with CocoaPods.
