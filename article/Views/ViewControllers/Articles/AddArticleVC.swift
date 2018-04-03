@@ -14,7 +14,7 @@ import RxCocoa
 import RxSwift
 
 
-class AddArticleViewController: UIViewController {
+class AddArticleVC: UIViewController {
     
     @IBOutlet weak var uploadImageView  : UIImageView!
     @IBOutlet weak var titleTextField   : UITextField!
@@ -133,7 +133,7 @@ class AddArticleViewController: UIViewController {
     
 }
 
-extension AddArticleViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension AddArticleVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func checkPhotoLibraryPermission() {
         let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
         

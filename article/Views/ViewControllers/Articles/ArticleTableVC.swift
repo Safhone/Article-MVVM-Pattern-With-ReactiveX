@@ -12,7 +12,7 @@ import RxCocoa
 import RxSwift
 
 
-class ArticleTableViewController: UITableViewController {
+class ArticleTableVC: UITableViewController {
 
     private var articleListViewModel: ArticleListViewModel?
     
@@ -58,7 +58,7 @@ class ArticleTableViewController: UITableViewController {
     
         tableView.rx.modelSelected(ArticleViewModel.self).asDriver()
             .drive(onNext: { [weak self] article in
-                let newsStoryBoard = self?.storyboard?.instantiateViewController(withIdentifier: "newsVC") as! NewsViewController
+                let newsStoryBoard = self?.storyboard?.instantiateViewController(withIdentifier: "newsVC") as! NewsVC
                 newsStoryBoard.newsImage        = article.image
                 newsStoryBoard.newsTitle        = article.title
                 newsStoryBoard.newsDescription  = article.description
@@ -137,7 +137,7 @@ class ArticleTableViewController: UITableViewController {
         }
         
         let edit = UITableViewRowAction(style: .normal, title: "Edit") { [weak self] action, index in
-            if let addViewController = self?.storyboard?.instantiateViewController(withIdentifier: "addVC") as? AddArticleViewController {
+            if let addViewController = self?.storyboard?.instantiateViewController(withIdentifier: "addVC") as? AddArticleVC {
                 addViewController.newsID            = self?.articleListViewModel?.articleAt(index: indexPath.row).id
                 addViewController.newsTitle         = self?.articleListViewModel?.articleAt(index: indexPath.row).title
                 addViewController.newsDescription   = self?.articleListViewModel?.articleAt(index: indexPath.row).description

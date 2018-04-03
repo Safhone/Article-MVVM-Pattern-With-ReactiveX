@@ -13,7 +13,7 @@ import RxSwift
 
 internal typealias completionHandler = () -> ()
 
-class ArticleViewModel {
+struct ArticleViewModel {
     
     var id          : Int?
     var title       : String?

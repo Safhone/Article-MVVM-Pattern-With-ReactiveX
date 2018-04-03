@@ -9,7 +9,7 @@
 import UIKit
 import SDWebImage
 
-class NewsViewController: UIViewController {
+class NewsVC: UIViewController {
 
     @IBOutlet weak var articleImageView : UIImageView!
     @IBOutlet weak var titleLabel       : UILabel!
